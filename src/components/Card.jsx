@@ -1,12 +1,29 @@
 import React from "react";
+import { StarIcon, MapPinIcon, TagIcon } from "@heroicons/react/24/solid";
 
 export default function Card({ restaurante }) {
   return (
-    <div className="bg-white dark:bg-gray-900 text-black dark:text-white rounded-2xl shadow-xl p-4 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-      <h2 className="text-xl font-bold mb-2">{restaurante.nombre}</h2>
-      <p className="text-gray-700 dark:text-gray-300 mb-1">📍 Ciudad: <span className="font-medium">{restaurante.ciudad}</span></p>
-      <p className="text-gray-700 dark:text-gray-300 mb-1">🍽️ Tipo: <span className="font-medium">{restaurante.tipo}</span></p>
-      <p className="text-yellow-500 font-semibold">⭐ Puntos: {restaurante.puntos}</p>
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition transform hover:scale-105 duration-300">
+      <img
+        src={restaurante.imagen}
+        alt={restaurante.nombre}
+        className="w-full h-48 object-cover"
+      />
+      <div className="p-4">
+        <h3 className="text-xl font-bold mb-1 text-black dark:text-white">{restaurante.nombre}</h3>
+        <p className="flex items-center text-gray-600 dark:text-gray-300 text-sm mb-1">
+          <MapPinIcon className="h-4 w-4 mr-1 text-red-500" />
+          {restaurante.ciudad}
+        </p>
+        <p className="flex items-center text-gray-600 dark:text-gray-300 text-sm mb-1">
+          <TagIcon className="h-4 w-4 mr-1 text-green-500" />
+          {restaurante.tipo}
+        </p>
+        <p className="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+          <StarIcon className="h-4 w-4 mr-1 text-yellow-400" />
+          {restaurante.puntos}
+        </p>
+      </div>
     </div>
   );
 }
