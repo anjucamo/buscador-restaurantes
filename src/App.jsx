@@ -1,93 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import Filters from "./components/Filters";
 import Card from "./components/Card";
-import RestaurantDetail from "./components/RestaurantDetail";
 
-const mockData = [
-  {
-    name: "La Tagliatella",
-    city: "Bogotá",
-    points: 5,
-    foodType: "Italiana",
-    description: "Especialidad en pastas y pizzas artesanales.",
-    cartaPdf: "https://example.com/carta-italiana.pdf"
-  },
-  {
-    name: "El Mariachi Loco",
-    city: "Medellín",
-    points: 4,
-    foodType: "Mexicana",
-    description: "Tacos, burritos y sabor mexicano auténtico.",
-    cartaPdf: "https://example.com/carta-mexicana.pdf"
-  }
+const data = [
+  { id: 1, nombre: "Pizza Loca", ciudad: "Bogotá", puntos: 4.5, tipo: "Italiana" },
+  { id: 2, nombre: "Taco Rico", ciudad: "Medellín", puntos: 4.8, tipo: "Mexicana" },
+  { id: 3, nombre: "Sushi Zen", ciudad: "Bogotá", puntos: 4.2, tipo: "Japonesa" },
 ];
 
 export default function App() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [city, setCity] = useState("");
-  const [rating, setRating] = useState("");
-  const [foodType, setFoodType] = useState("");
-  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-  const [darkMode, setDarkMode] = useState(true);
+  const [busqueda, setBusqueda] = useState("");
+  const [ciudad, setCiudad] = useState("");
+  const [tipo, setTipo] = useState("");
+  const [theme, setTheme] = useState("dark");
 
-  const filteredRestaurants = mockData.filter((restaurant) => {
-    return (
-      restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (city === "" || restaurant.city === city) &&
-      (rating === "" || restaurant.points === parseInt(rating)) &&
-      (foodType === "" || restaurant.foodType === foodType)
-    );
-  });
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  const resultados = data.filter((r) =>
+    r.nombre.toLowerCase().includes(busqueda.toLowerCase()) &&
+    r.ciudad.includes(ciudad) &&
+    r.tipo.includes(tipo)
+  );
 
   return (
-    <div className={`${darkMode ? "bg-black text-white" : "bg-white text-black"} min-h-screen transition-all duration-500`}>
-      <div className="p-4 max-w-xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-extrabold">🍽️ Restaurantes</h1>
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className={`text-sm px-3 py-2 rounded-full border ${
-              darkMode
-                ? "bg-gray-800 text-white border-gray-600 hover:bg-gray-700"
-                : "bg-gray-100 text-black border-gray-300 hover:bg-gray-200"
-            } transition`}
-          >
-            {darkMode ? "☀️ Claro" : "🌙 Oscuro"}
-          </button>
+    <div className="min-h-screen p-4 bg-white text-black dark:bg-black dark:text-white transition duration-300">
+      {/* ENCABEZADO */}
+      <div className="flex justify-between items-center mb-6">
+        <div className="text-center sm:text-left">
+          <h1 className="text-4xl font-bold mb-2">🍽️ Restaurantes</h1>
+          <p className="text-gray-500 dark:text-gray-400">Busca tu restaurante favorito</p>
         </div>
+        <button
+          onClick={toggleTheme}
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-800 text-black dark:text-white rounded-xl"
+        >
+          {theme === "dark" ? "☀️ Claro" : "🌙 Oscuro"}
+        </button>
+      </div>
 
-        {selectedRestaurant ? (
-          <RestaurantDetail
-            restaurant={selectedRestaurant}
-            onBack={() => setSelectedRestaurant(null)}
-            darkMode={darkMode}
-          />
-        ) : (
-          <>
-            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} darkMode={darkMode} />
-            <Filters
-              city={city}
-              setCity={setCity}
-              rating={rating}
-              setRating={setRating}
-              foodType={foodType}
-              setFoodType={setFoodType}
-              darkMode={darkMode}
-            />
-            <div className="mt-6 space-y-4">
-              {filteredRestaurants.length === 0 ? (
-                <p className="text-center text-gray-400">No se encontraron restaurantes.</p>
-              ) : (
-                filteredRestaurants.map((r, i) => (
-                  <div key={i} onClick={() => setSelectedRestaurant(r)} className="cursor-pointer">
-                    <Card restaurant={r} darkMode={darkMode} />
-                  </div>
-                ))
-              )}
-            </div>
-          </>
-        )}
+      {/* BÚSQUEDA */}
+      <SearchBar busqueda={busqueda} setBusqueda={setBusqueda} />
+
+      {/* FILTROS */}
+      <Filters ciudad={ciudad} setCiudad={setCiudad} tipo={tipo} setTipo={setTipo} />
+
+      {/* RESULTADOS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+        {resultados.map((r) => (
+          <Card key={r.id} restaurante={r} />
+        ))}
       </div>
     </div>
   );
