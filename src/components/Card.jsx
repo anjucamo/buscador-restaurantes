@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Card({ restaurante }) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition hover:scale-105 duration-300">
@@ -9,6 +7,7 @@ export default function Card({ restaurante }) {
         <p className="text-sm text-gray-500 dark:text-gray-400">📍 {restaurante.ciudad}</p>
         <p className="text-sm text-gray-500 dark:text-gray-400">⭐ {restaurante.puntos}</p>
         <p className="text-sm text-gray-500 dark:text-gray-400">🍽️ {restaurante.tipo}</p>
+        <p className="text-sm mt-2 text-gray-600 dark:text-gray-300">{restaurante.descripcion}</p>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ const data = [
     puntos: 4.5,
     tipo: "Italiana",
     imagen: "/images/pizza.jpg",
+    descripcion: "Auténtica pizza italiana con ingredientes frescos."
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ const data = [
     puntos: 4.8,
     tipo: "Mexicana",
     imagen: "/images/taco-rico.jpg",
+    descripcion: "Tacos tradicionales mexicanos llenos de sabor."
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ const data = [
     puntos: 4.2,
     tipo: "Japonesa",
     imagen: "/images/suchi.jpg",
+    descripcion: "Sushi de calidad premium con un toque moderno."
   },
 ];
 
@@ -35,6 +38,7 @@ export default function App() {
   const [busqueda, setBusqueda] = useState("");
   const [ciudad, setCiudad] = useState("");
   const [tipo, setTipo] = useState("");
+  const [puntos, setPuntos] = useState("");
   const [modoOscuro, setModoOscuro] = useState(true);
 
   useEffect(() => {
@@ -44,7 +48,8 @@ export default function App() {
   const resultados = data.filter((r) =>
     r.nombre.toLowerCase().includes(busqueda.toLowerCase()) &&
     r.ciudad.includes(ciudad) &&
-    r.tipo.includes(tipo)
+    r.tipo.includes(tipo) &&
+    (puntos === "" || r.puntos >= parseFloat(puntos))
   );
 
   return (
@@ -59,25 +64,27 @@ export default function App() {
         </button>
       </div>
 
-   {/* Encabezado */}
-<div className="text-center mb-6 flex flex-col items-center">
-  <div className="flex items-center gap-3">
-    <HomeModernIcon className="w-10 h-10 text-yellow-400" />
-    <h1 className="text-4xl font-extrabold text-yellow-400">Restaurantes</h1>
-  </div>
-  <p className="text-lg text-white dark:text-gray-300 mt-1">
-    Encuentra tu lugar favorito para comer
-  </p>
-</div>
+      {/* Encabezado */}
+      <div className="text-center mb-6 flex flex-col items-center">
+        <div className="flex items-center gap-3">
+          <HomeModernIcon className="w-10 h-10 text-yellow-400" />
+          <h1 className="text-4xl font-extrabold text-yellow-400">Restaurantes</h1>
+        </div>
+        <p className="text-lg text-white dark:text-gray-300 mt-1">
+          Encuentra tu lugar favorito para comer
+        </p>
+      </div>
 
-
-
-
-
-
-
+      {/* Búsqueda y Filtros */}
       <SearchBar busqueda={busqueda} setBusqueda={setBusqueda} />
-      <Filters ciudad={ciudad} setCiudad={setCiudad} tipo={tipo} setTipo={setTipo} />
+      <Filters
+        ciudad={ciudad}
+        setCiudad={setCiudad}
+        tipo={tipo}
+        setTipo={setTipo}
+        puntos={puntos}
+        setPuntos={setPuntos}
+      />
 
       {/* Resultados */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
