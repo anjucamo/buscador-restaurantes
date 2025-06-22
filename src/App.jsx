@@ -12,7 +12,7 @@ const data = [
     puntos: 4.5,
     tipo: "Italiana",
     imagen: "/images/pizza.jpg",
-    descripcion: "Auténtica pizza italiana con ingredientes frescos."
+    descripcion: "Deliciosa pizza artesanal con ingredientes frescos."
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const data = [
     puntos: 4.8,
     tipo: "Mexicana",
     imagen: "/images/taco-rico.jpg",
-    descripcion: "Tacos tradicionales mexicanos llenos de sabor."
+    descripcion: "Tacos auténticos con el mejor sabor mexicano."
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ const data = [
     puntos: 4.2,
     tipo: "Japonesa",
     imagen: "/images/suchi.jpg",
-    descripcion: "Sushi de calidad premium con un toque moderno."
+    descripcion: "Sushi fresco preparado al instante con calidad premium."
   },
 ];
 
@@ -54,6 +54,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen p-4 bg-white dark:bg-black text-black dark:text-white transition duration-300">
+      
       {/* Botón modo claro/oscuro */}
       <div className="flex justify-end mb-4">
         <button
@@ -70,12 +71,12 @@ export default function App() {
           <HomeModernIcon className="w-10 h-10 text-yellow-400" />
           <h1 className="text-4xl font-extrabold text-yellow-400">Restaurantes</h1>
         </div>
-        <p className="text-lg text-white dark:text-gray-300 mt-1">
+        <p className="text-lg text-gray-700 dark:text-gray-300 mt-1">
           Encuentra tu lugar favorito para comer
         </p>
       </div>
 
-      {/* Búsqueda y Filtros */}
+      {/* Buscador y Filtros */}
       <SearchBar busqueda={busqueda} setBusqueda={setBusqueda} />
       <Filters
         ciudad={ciudad}
